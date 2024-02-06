@@ -1,0 +1,72 @@
+---
+import NavigationBar from "../components/NavigationBar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+type Props = {
+  title: string;
+};
+
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Dylan Nolasco's website" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline>
+      const DARK_THEME_CLASS = "dark";
+      const COLOUR_MODE = "COLOUR_MODE";
+      const LIGHT_THEME = "LIGHT";
+      const DARK_THEME = "DARK";
+
+      const rootEl = document.documentElement;
+
+      const getInititalColorMode = () => {
+        const previouslySavedColourMode =
+          window.localStorage.getItem(COLOUR_MODE);
+
+        if (previouslySavedColourMode) {
+          return previouslySavedColourMode;
+        }
+
+        if (window.matchMedia("(prefers-color-scheme: dark").matches) {
+          return DARK_THEME;
+        }
+
+        return LIGHT_THEME;
+      };
+
+      const initialColourMode = getInititalColorMode();
+
+      const setInitialColourMode = (mode) => {
+        if (mode === LIGHT_THEME) {
+          rootEl.classList.remove(DARK_THEME_CLASS);
+        } else {
+          rootEl.classList.add(DARK_THEME_CLASS);
+        }
+      };
+
+      setInitialColourMode(initialColourMode);
+    </script>
+  </head>
+  <body>
+    <main>
+      <!-- Content of the page -->
+      <NavigationBar />
+      <slot />
+      <Footer />
+    </main>
+  </body>
+</html>
